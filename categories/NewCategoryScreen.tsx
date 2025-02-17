@@ -5,7 +5,7 @@ import { CategoriesAPI } from './CategoriesAPI';
 
 
 
-export default function NewCategoryScreen() {
+const NewCategoryScreen: React.FC = () => {
   const [title, setTitle] = useState('');
 
   const onCreateCategory = async () => {
@@ -57,3 +57,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default NewCategoryScreen;

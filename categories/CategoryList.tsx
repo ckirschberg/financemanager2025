@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, Button } from 'react-native';
 import { CategoryEntity } from './CategoryEntity';
 import { CategoriesAPI } from './CategoriesAPI';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../App';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-const API_URL = 'http://localhost:3000/categories';
 
 const CategoryList: React.FC = () => {
+  type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CategoryList'>;
+  const navigation = useNavigation<NavigationProp>();
+
   const [categories, setCategories] = useState<CategoryEntity[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -39,12 +44,15 @@ const CategoryList: React.FC = () => {
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : categories.length > 0 ? (
-        <FlatList
-          data={categories}
-          keyExtractor={(item) => item.id.toString() }
-          renderItem={renderItem}
-          contentContainerStyle={styles.list}
-        />
+        <View>
+            <Button onPress={() => navigation.navigate('NewCategory')} title="Create new Category" color="#841584" />
+            <FlatList
+            data={categories}
+            keyExtractor={(item) => item.id.toString() }
+            renderItem={renderItem}
+            contentContainerStyle={styles.list}
+            />
+        </View>
       ) : (
         <Text style={styles.emptyMessage}>No categories found</Text>
       )}
