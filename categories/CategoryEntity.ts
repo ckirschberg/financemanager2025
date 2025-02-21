@@ -1,5 +1,5 @@
 export class CategoryEntity {
-    id: number = 0;
+    id: number | undefined;
     
     constructor(public title: string) {}
   }

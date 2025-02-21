@@ -48,7 +48,7 @@ const CategoryList: React.FC = () => {
             <Button onPress={() => navigation.navigate('NewCategory')} title="Create new Category" color="#841584" />
             <FlatList
             data={categories}
-            keyExtractor={(item) => item.id.toString() }
+            keyExtractor={(item) => item.id!.toString() }
             renderItem={renderItem}
             contentContainerStyle={styles.list}
             />
