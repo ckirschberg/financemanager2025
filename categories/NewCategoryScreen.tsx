@@ -2,24 +2,28 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { CategoryEntity } from './CategoryEntity';
 import { CategoriesAPI } from './CategoriesAPI';
-
+import { AppDispatch } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { createCategory } from './categorySlice';
 
 
 const NewCategoryScreen: React.FC = () => {
   const [title, setTitle] = useState('');
+  const dispatch = useDispatch<AppDispatch>()
 
   const onCreateCategory = async () => {
     const newCategory = new CategoryEntity(title);
 
-    try {
-      const createdCategory = await CategoriesAPI.createCategory(newCategory);
+    dispatch(createCategory(newCategory)) // dispatches an action (createCategory)
+    // try {
+    //   const createdCategory = await CategoriesAPI.createCategory(newCategory);
         
-      console.log('Category created:', createdCategory);
-    } catch (error) {
-      console.error('Error:', error);
-      console.log(error);
+    //   console.log('Category created:', createdCategory);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   console.log(error);
       
-    }
+    // }
   };
 
   return (

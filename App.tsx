@@ -7,6 +7,9 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EntriesMain from './entries/EntriesMain';
+import { store } from './store/store'
+import { Provider } from 'react-redux'
+import { Counter } from './counter/counter';
 
 export type RootStackParamList = {
   CategoryList: undefined; // No parameters
@@ -24,7 +27,7 @@ const CategoryStack = createNativeStackNavigator<RootStackParamList>({
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
-    Entries: EntriesMain,
+    Entries: Counter,
     Categories: CategoryStack,
   },
 });
@@ -32,7 +35,11 @@ const HomeTabs = createBottomTabNavigator({
 const Navigation = createStaticNavigation(HomeTabs);
 
 export default function App() {
-  return <Navigation />;
+  return (
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
+  )
 }
 
 
