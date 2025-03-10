@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { CategoryEntity } from './CategoryEntity';
 import { CategoriesAPI } from './CategoriesAPI';
-import { AppDispatch } from '../store/store';
-import { useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { createCategory } from './categorySlice';
 
 
 const NewCategoryScreen: React.FC = () => {
   const [title, setTitle] = useState('');
   const dispatch = useDispatch<AppDispatch>()
+  const error = useSelector((state: RootState) => state.category.errormessage) // view subscribes to the store
 
   const onCreateCategory = async () => {
     const newCategory = new CategoryEntity(title);
@@ -29,6 +30,8 @@ const NewCategoryScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text>Create a New Category</Text>
+      <Text>{error}</Text>
+      
       <TextInput
         style={styles.input}
         onChangeText={setTitle}

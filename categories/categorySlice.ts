@@ -20,11 +20,13 @@ export const createCategory = createAsyncThunk(
 
 
 interface CategoryState {
-  categories: CategoryEntity[]
+  categories: CategoryEntity[],
+  errormessage: string
 }
 
 const initialState: CategoryState = {
   categories: [],
+  errormessage: ''
 } 
 
 // Then, handle actions in your reducers:
@@ -47,7 +49,14 @@ const categorySlice = createSlice({
         console.log("payload", action.payload);
         
         state.categories.push(action.payload); // action.payload is the new category
-      })
+        state.errormessage = "";
+    })
+    builder.addCase(createCategory.rejected, (state, action) => {
+        // Add user to the state array
+        console.log("payload", action.payload);
+        
+        state.errormessage = "Error creating category";
+    })
   },
 })
 
