@@ -7,8 +7,8 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EntriesMain from './entries/EntriesMain';
-import { store } from './store/store'
-import { Provider } from 'react-redux'
+import { RootState, store } from './store/store'
+import { Provider, useSelector } from 'react-redux'
 import { Counter } from './counter/counter';
 import { SignupScreen } from './users/SignupScreen';
 
@@ -50,10 +50,19 @@ const Navigation = createStaticNavigation(HomeTabs);
 const LoginSignupScreens = createStaticNavigation(LoginSignupStack);
 
 export default function App() {
+  const token = '';
+
   return (
     <Provider store={store}>
-      <LoginSignupScreens />
-      {/* <Navigation /> */}
+      {token ? (
+        <>
+          <Navigation />
+        </>
+      ) : (
+        <>
+          <LoginSignupScreens />
+        </>
+      )}
     </Provider>
   )
 }

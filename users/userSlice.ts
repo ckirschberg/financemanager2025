@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { CreateUserDto } from './CreateUserDto'
 import { UsersAPI } from './UsersAPI'
-
+import * as SecureStore from 'expo-secure-store';
 
 export const signup = createAsyncThunk(
     'auth/signup', // not the endpoint
@@ -28,6 +28,9 @@ const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    reloadJwtFromStorage: (state, action: PayloadAction<string>) => {
+      state.token = action.payload
+    },
     // standard reducer logic, with auto-generated action types per reducer
   },
   extraReducers: (builder) => {
@@ -35,6 +38,9 @@ const userSlice = createSlice({
     builder.addCase(signup.fulfilled, (state, action) => {
       // Add user to the state array
       console.log("payload", action.payload);
+      SecureStore.setItemAsync('object', JSON.stringify(action.payload));
+      // state.token = action.payload; // in login.fulfilled
+
       state.errormessage = "";
     }),
     builder.addCase(signup.rejected, (state, action) => {
@@ -45,5 +51,8 @@ const userSlice = createSlice({
     })
   },
 })
+
+// Action creators are generated for each case reducer function
+export const { reloadJwtFromStorage } = userSlice.actions
 
 export default userSlice.reducer
