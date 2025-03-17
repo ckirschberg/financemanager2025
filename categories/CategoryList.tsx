@@ -13,6 +13,7 @@ import { fetchCategories } from './categorySlice';
 const CategoryList: React.FC = () => {
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CategoryList'>;
   const navigation = useNavigation<NavigationProp>();
+
   const categories = useSelector((state: RootState) => state.category.categories)
   const dispatch = useDispatch<AppDispatch>()
   console.log(categories);
