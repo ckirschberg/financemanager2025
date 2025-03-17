@@ -3,11 +3,11 @@ import { View, Text, FlatList, StyleSheet, ActivityIndicator, Alert, Button } fr
 import { CategoryEntity } from './CategoryEntity';
 import { CategoriesAPI } from './CategoriesAPI';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchCategories } from './categorySlice';
+import { RootStackParamList } from '../NavigationWrapper';
 
 
 const CategoryList: React.FC = () => {

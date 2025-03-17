@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SignupScreen } from "./users/SignupScreen";
+import { LoginScreen } from "./users/LoginScreen";
 import CategoryList from "./categories/CategoryList";
 import NewCategoryScreen from "./categories/NewCategoryScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Counter } from "./counter/counter";
 import { createStaticNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
+import { reloadJwtFromStorage } from "./users/userSlice";
+import ProfileScreen from "./users/ProfileScreen";
+
 
 export type RootStackParamList = {
     CategoryList: undefined; // No parameters
@@ -18,13 +23,13 @@ export type RootStackParamList = {
   
   export type LoginSignupStackParamList = {
     SignupScreen: undefined; // No parameters
-    // LoginScreen: undefined; // No parameters for this route
+    LoginScreen: undefined; // No parameters for this route
   };
   
   const LoginSignupStack = createNativeStackNavigator<LoginSignupStackParamList>({
     screens: {
-      SignupScreen: SignupScreen,
-      // LoginScreen: LoginScreen
+        LoginScreen: LoginScreen,
+        SignupScreen: SignupScreen
     },
   });
   
@@ -32,7 +37,7 @@ export type RootStackParamList = {
   const CategoryStack = createNativeStackNavigator<RootStackParamList>({
     screens: {
       CategoryList: CategoryList,
-      NewCategory: NewCategoryScreen
+      NewCategory: NewCategoryScreen,
     },
   });
   
@@ -40,6 +45,7 @@ export type RootStackParamList = {
     screens: {
       Entries: Counter,
       Categories: CategoryStack,
+      Profile: ProfileScreen
     },
   });
   
@@ -49,9 +55,21 @@ export type RootStackParamList = {
   
 export default function NavigationWrapper() {
     const token = useSelector((state: RootState) => state.user.token);
+    const dispatch = useDispatch()
   
+    useEffect(() => {
+        async function getValueFor() {
+          const userObj = JSON.parse(await SecureStore.getItemAsync('jwt') || '')
+          console.log("userObj", userObj);
+          dispatch(reloadJwtFromStorage(userObj)) // in my code, I have no token
+          // Instead, do the login functionality and save the token instead of the user.
+        }
+        getValueFor()
+      }, [])
+      
+      
   return (
-    <View>
+    <>
         {token ? (
             <>
             <Navigation />
@@ -61,7 +79,7 @@ export default function NavigationWrapper() {
             <LoginSignupScreens />
             </>
         )}
-  </View>          
+  </>          
     )
 }
 
