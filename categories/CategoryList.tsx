@@ -8,15 +8,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/store';
 import { fetchCategories } from './categorySlice';
 import { RootStackParamList } from '../NavigationWrapper';
+import { useQuery } from '@tanstack/react-query';
 
 
 const CategoryList: React.FC = () => {
   type NavigationProp = NativeStackNavigationProp<RootStackParamList, 'CategoryList'>;
   const navigation = useNavigation<NavigationProp>();
+  
+  const { isLoading, isError, data: categories, error } = useQuery({
+    queryKey: ['categories'],
+    queryFn: async () => {
+      const response = await fetch('http://127.0.0.1:3000/categories')
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return response.json()
+    },
+})
 
-  const categories = useSelector((state: RootState) => state.category.categories)
-  const dispatch = useDispatch<AppDispatch>()
-  console.log(categories);
+
+  //const categories = useSelector((state: RootState) => state.category.categories) // redux
+  //const dispatch = useDispatch<AppDispatch>() // redux
+  //console.log(categories);
   
   
 //   const [categories, setCategories] = useState<CategoryEntity[]>([]);
@@ -37,7 +50,7 @@ const CategoryList: React.FC = () => {
   // Fetch categories on component mount
   useEffect(() => {
     // fetchCategories();
-    dispatch(fetchCategories());
+    //dispatch(fetchCategories()); // redux
   }, []);
 
 

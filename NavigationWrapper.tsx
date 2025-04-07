@@ -13,6 +13,7 @@ import { createStaticNavigation } from "@react-navigation/native";
 import * as SecureStore from 'expo-secure-store';
 import { reloadJwtFromStorage } from "./users/userSlice";
 import ProfileScreen from "./users/ProfileScreen";
+import EntriesMain from "./entries/EntriesListScreen";
 
 
 export type RootStackParamList = {
@@ -43,7 +44,7 @@ export type RootStackParamList = {
   
   const HomeTabs = createBottomTabNavigator({
     screens: {
-      Entries: Counter,
+      Entries: EntriesMain,
       Categories: CategoryStack,
       Profile: ProfileScreen
     },
