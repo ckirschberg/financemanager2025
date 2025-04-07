@@ -35,7 +35,7 @@ const NewCategoryScreen: React.FC = () => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ['todos'] })
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
     },
   })
 
