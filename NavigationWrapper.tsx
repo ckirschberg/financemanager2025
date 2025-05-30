@@ -14,6 +14,7 @@ import * as SecureStore from 'expo-secure-store';
 import { reloadJwtFromStorage } from "./users/userSlice";
 import ProfileScreen from "./users/ProfileScreen";
 import EntriesMain from "./entries/EntriesListScreen";
+import Programmes from "./components/Programmes";
 
 
 export type RootStackParamList = {
@@ -46,7 +47,8 @@ export type RootStackParamList = {
     screens: {
       Entries: EntriesMain,
       Categories: CategoryStack,
-      Profile: ProfileScreen
+      Profile: ProfileScreen,
+      Programmes: Programmes,
     },
   });
   
